@@ -29,8 +29,8 @@ def gen_payload(cmd, data):
     payload[2] = chr(cmd)
     i = 3
     for d in data:
-       payload[i] = chr(d)
-       i = i + 1
+        payload[i] = chr(d)
+        i = i + 1
     payload[15] = '\xff'
     payload[16] = '\xff'
     payload[17] = chr(gen_check_sum(payload[2:17])) 
@@ -107,9 +107,9 @@ ser.flushInput()
 cmd_set_work()
 
 for i in range(1, 7):
-  cmd_query_data()
-  time.sleep(1)
-  
+    cmd_query_data()
+    time.sleep(1)
+
 cmd_set_sleep()
 
 ser.close()
