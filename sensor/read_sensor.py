@@ -38,12 +38,21 @@ def send_command(payload):
     payload_unicode = ''.join(payload)
     ser.write(payload_unicode.encode('latin-1'))
 
+def read_response():
+    enter = 0
+    while enter != b"\xaa":
+        enter = ser.read()
+    d = ser.read(9)
+    response = enter + d
+    return response
+
 def cmd_set_work():
     data = [
             1, # Set Mode
             1  # Work
             ]
     send_command(gen_payload(CMD_SET_SLEEP_AND_WORK, data))
+    read_response()
 
 def cmd_set_sleep():
     data = [
@@ -51,7 +60,7 @@ def cmd_set_sleep():
             0  # Sleep
            ]
     send_command(gen_payload(CMD_SET_SLEEP_AND_WORK, data))
-
+    read_response()
 
 ser = serial.Serial("/dev/ttyUSB0")
 
