@@ -12,6 +12,13 @@ CMD_SET_SLEEP_AND_WORK = 6
 CMD_SET_WORKING_PERIOD = 8
 CMD_CHECK_FIRMWARE_VERSION = 7
 
+def gen_check_sum(data):
+    sum = 0
+    for d in data:
+        sum = ord(d) + sum
+
+    return sum % 256
+
 def gen_payload(cmd, data):
     payload = [chr(0)] * 19
     payload[0] = '\xaa'
@@ -23,7 +30,7 @@ def gen_payload(cmd, data):
        i = i + 1
     payload[15] = '\xff'
     payload[16] = '\xff'
-    payload[17] = chr((sum(data) + cmd + ord(payload[15]) + ord(payload [16])) % 256)
+    payload[17] = chr(gen_check_sum(payload[2:17])) 
     payload[18] = '\xab'
     return payload
 
