@@ -37,7 +37,6 @@ if (isset($_POST["action"])) {
         $longitude = $_POST["longitude"];
         if (verify_machine_values($identifier, $latitude, $longitude)) {
             $sql = "UPDATE machines SET identifier=\"$identifier\", location=POINT($latitude, $longitude) WHERE mc_id=$mc_id";
-            print $sql;
             $result = mysqli_query($conn, $sql);
             if (!$result) {
                 print("Error: Error updating machine details");
@@ -50,8 +49,17 @@ if (isset($_POST["action"])) {
         } else {
             $action = "Modify Location";
         }
+    } elseif ($action == "Delete Location") {
+        $mc_id = $_POST["mc_id"];
+        $sql = "DELETE FROM machines WHERE mc_id=$mc_id";
+        $result = mysqli_query($conn, $sql);
+        if (!$result) {
+            print("Error: Error deleting row");
+        }
+        unset($mc_id);
+        $action = "New Location";
     }
-    $action = "New Location";
+
 }
 
 $sql = "SELECT mc_id,identifier,st_x(location) AS latitude,st_y(location) AS longitude FROM machines";
