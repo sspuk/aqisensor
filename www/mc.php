@@ -8,6 +8,10 @@ if (!$conn) {
     die("Could not connect to database: " . mysqli_connect_error());
 }
 
+$identifier = "";
+$latitude = "";
+$longitude = "";
+$mc_id = "";
 $action = "New Location";
 if (isset($_POST["action"])) {
     $action = $_POST["action"];
