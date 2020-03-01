@@ -8,44 +8,50 @@ if (!$conn) {
     die("Could not connect to database: " . mysqli_connect_error());
 }
 
-$action = "new";
+$action = "New Location";
 if (isset($_POST["action"])) {
     $action = $_POST["action"];
-    if ($action == "new") {
+    if ($action == "New Location") {
         $identifier = $_POST["identifier"];
         $latitude = $_POST["latitude"];
         $longitude = $_POST["longitude"];
         if (verify_machine_values($identifier, $latitude, $longitude)) {
             $sql = "INSERT INTO machines(identifier, location) VALUES('$identifier', POINT($latitude, $longitude))";
             $result = mysqli_query($conn, $sql);
-            if (!result) {
+            if (!$result) {
                 print("Error: Error inserting new machine");
             }
         }
-    } elseif ($action == "edit") {
+    } elseif ($action == "Edit Location") {
         $mc_id = $_POST["mc_id"];
         $sql = "SELECT mc_id,identifier,st_x(location) AS latitude,st_y(location) AS longitude FROM machines WHERE mc_id=$mc_id";
         $row = mysqli_fetch_assoc(mysqli_query($conn, $sql));
         $identifier = $row["identifier"];
         $latitude = $row["latitude"];
         $longitude = $row["longitude"];
-        $action = "editsubmit";
-    } elseif ($action == "editsubmit") {
+        $action = "Modify Location";
+    } elseif ($action == "Modify Location") {
         $mc_id = $_POST["mc_id"];
         $identifier = $_POST["identifier"];
         $latitude = $_POST["latitude"];
         $longitude = $_POST["longitude"];
         if (verify_machine_values($identifier, $latitude, $longitude)) {
-            $sql = "INSERT INTO machines(identifier, location) VALUES('$identifier', POINT($latitude, $longitude)) WHERE mc_id=$mc_id";
+            $sql = "UPDATE machines SET identifier=\"$identifier\", location=POINT($latitude, $longitude) WHERE mc_id=$mc_id";
+            print $sql;
             $result = mysqli_query($conn, $sql);
-            if (!result) {
+            if (!$result) {
                 print("Error: Error updating machine details");
             }
-            $action = "new";
+            unset($identifier);
+            unset($latitude);
+            unset($longitude);
+            unset($mc_id);
+            $action = "New Location";
         } else {
-            $action = "editsubmit";
+            $action = "Modify Location";
         }
     }
+    $action = "New Location";
 }
 
 $sql = "SELECT mc_id,identifier,st_x(location) AS latitude,st_y(location) AS longitude FROM machines";
@@ -57,8 +63,7 @@ $result = mysqli_query($conn, $sql);
 
 <html>
 <form method="POST">
-    <input type=hidden name=action value="<?php print $action ?>">
-    <input type=hidden name=action value="<?php print $mc_id ?>">
+    <input type=hidden name=mc_id value="<?php print $mc_id ?>">
     <h3>Machine Identifier:</h3>
     <input type="text" name="identifier" value="<?php print $identifier ?>">
     <h3>Latitude:</h3>
@@ -67,7 +72,10 @@ $result = mysqli_query($conn, $sql);
     <input type="text" name="longitude" value="<?php print $longitude ?>">
     <br/>
     <br/>
-    <input type="submit" name="submit">
+    <input type="submit" name="action" value="<?php print $action ?>">
+    <?php if ($action == "Modify Location") { ?>
+        <input type="submit" name="action" value="Delete Location">
+    <?php } ?>
 </form>
 
 <?php if (mysqli_num_rows($result) > 0) { ?>
@@ -79,7 +87,7 @@ $result = mysqli_query($conn, $sql);
         print (
             "<tr>
                 <form method=POST>
-                    <input type=hidden name=action value=edit >
+                    <input type=hidden name=action value=\"Edit Location\" >
                     <input type=hidden name=mc_id value=".$row["mc_id"] .">
                     <td>". $row["identifier"]."</td>
                     <td> ". $row["latitude"].", ". $row["longitude"] ."</td>
