@@ -24,6 +24,7 @@ if (isset($_POST["action"])) {
         }
     } elseif ($action == "edit") {
         $mc_id = $_POST["mc_id"];
+        print "<br><h1>$mc_id</h1>";
         $sql = "SELECT mc_id,identifier,st_x(location) AS latitude,st_y(location) AS longitude FROM machines WHERE mc_id=$mc_id";
         $row = mysqli_fetch_assoc(mysqli_query($conn, $sql));
         $identifier = $row["identifier"];
@@ -31,7 +32,20 @@ if (isset($_POST["action"])) {
         $longitude = $row["longitude"];
         $action = "editsubmit";
     } elseif ($action == "editsubmit") {
-        print "Save edited info";
+        $mc_id = $_POST["mc_id"];
+        $identifier = $_POST["identifier"];
+        $latitude = $_POST["latitude"];
+        $longitude = $_POST["longitude"];
+        if (verify_machine_values($identifier, $latitude, $longitude)) {
+            $sql = "INSERT INTO machines(identifier, location) VALUES('$identifier', POINT($latitude, $longitude)) WHERE mc_id=$mc_id";
+            $result = mysqli_query($conn, $sql);
+            if (!result) {
+                print("Error: Error updating machine details");
+            }
+            $action = "new";
+        } else {
+            $action = "editsubmit";
+        }
     }
 }
 
@@ -71,7 +85,7 @@ $result = mysqli_query($conn, $sql);
                     <td>". $row["identifier"]."</td>
                     <td> ". $row["latitude"].", ". $row["longitude"] ."</td>
                     <td><input type=submit Value=Edit></td>
-                <form>    
+                </form>    
             </tr>"
         );
     }
