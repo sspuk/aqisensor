@@ -12,8 +12,8 @@ if (isset($_POST["action"])) {
     $action = $_POST["action"];
     if ($action == "new") {
         $identifier = $_POST["identifier"];
-        $latitude = $_POST["lat"];
-        $longitude = $_POST["lon"];
+        $latitude = $_POST["latitude"];
+        $longitude = $_POST["longitude"];
         if (verify_machine_values($identifier, $latitude, $longitude)) {
             $sql = "INSERT INTO machines(identifier, location) VALUES('$identifier', POINT($latitude, $longitude))";
             $result = mysqli_query($conn, $sql);
@@ -37,11 +37,11 @@ $result = mysqli_query($conn, $sql);
 <form method="POST">
     <input type=hidden name=action value=new>
     <h3>Machine Identifier:</h3>
-    <input type="text" name="identifier">
+    <input type="text" name="identifier" value="<?php print $identifier ?>">
     <h3>Latitude:</h3>
-    <input type="text" name="lat">
+    <input type="text" name="latitude" value="<?php print $latitude ?>">
     <h3>Longitude:</h3>
-    <input type="text" name="lon">
+    <input type="text" name="longitude" value="<?php print $longitude ?>">
     <br/>
     <br/>
     <input type="submit" name="submit">

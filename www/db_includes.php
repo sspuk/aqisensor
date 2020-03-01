@@ -13,11 +13,19 @@ function verify_machine_values($identifier, $latitude, $longitude)
         print("<br>Error: Identifier must be in between 5 and 99 characters");
         return false;
     }
-    if ($latitude < -90 || $latitude > 90) {
+    if (!is_numeric($latitude) || !is_numeric($longitude)) {
+        print("<br> Error: Incorrect latitude/longitude value");
+        return false;
+    }
+
+    $latitude = intval($latitude);
+    $longitude = intval($longitude);
+
+    if ($latitude < -90 || $latitude > 90 || $latitude == "") {
         print("<br> Error: Incorrect latitude value");
         return false;
     }
-    if ($longitude < -180 || $longitude > 180 ) {
+    if ($longitude < -180 || $longitude > 180) {
         print("<br>Error: Incorrect longitude value");
         return false;
     }
