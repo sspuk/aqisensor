@@ -24,7 +24,6 @@ if (isset($_POST["action"])) {
         }
     } elseif ($action == "edit") {
         $mc_id = $_POST["mc_id"];
-        print "<br><h1>$mc_id</h1>";
         $sql = "SELECT mc_id,identifier,st_x(location) AS latitude,st_y(location) AS longitude FROM machines WHERE mc_id=$mc_id";
         $row = mysqli_fetch_assoc(mysqli_query($conn, $sql));
         $identifier = $row["identifier"];
