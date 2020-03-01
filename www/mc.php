@@ -65,8 +65,6 @@ if (isset($_POST["action"])) {
 $sql = "SELECT mc_id,identifier,st_x(location) AS latitude,st_y(location) AS longitude FROM machines";
 $result = mysqli_query($conn, $sql);
 
-//print "result: ".$result;
-
 ?>
 
 <html>
