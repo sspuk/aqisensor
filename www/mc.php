@@ -8,6 +8,7 @@ if (!$conn) {
     die("Could not connect to database: " . mysqli_connect_error());
 }
 
+$action = "new";
 if (isset($_POST["action"])) {
     $action = $_POST["action"];
     if ($action == "new") {
@@ -22,7 +23,15 @@ if (isset($_POST["action"])) {
             }
         }
     } elseif ($action == "edit") {
-        print("Edit existing machine");
+        $mc_id = $_POST["mc_id"];
+        $sql = "SELECT mc_id,identifier,st_x(location) AS latitude,st_y(location) AS longitude FROM machines WHERE mc_id=$mc_id";
+        $row = mysqli_fetch_assoc(mysqli_query($conn, $sql));
+        $identifier = $row["identifier"];
+        $latitude = $row["latitude"];
+        $longitude = $row["longitude"];
+        $action = "editsubmit";
+    } elseif ($action == "editsubmit") {
+        print "Save edited info";
     }
 }
 
@@ -35,7 +44,8 @@ $result = mysqli_query($conn, $sql);
 
 <html>
 <form method="POST">
-    <input type=hidden name=action value=new>
+    <input type=hidden name=action value="<?php print $action ?>">
+    <input type=hidden name=action value="<?php print $mc_id ?>">
     <h3>Machine Identifier:</h3>
     <input type="text" name="identifier" value="<?php print $identifier ?>">
     <h3>Latitude:</h3>
