@@ -41,10 +41,10 @@ if (isset($_POST["action"])) {
             if (!$result) {
                 print("Error: Error updating machine details");
             }
-            unset($identifier);
-            unset($latitude);
-            unset($longitude);
-            unset($mc_id);
+            $identifier = "";
+            $latitude = "";
+            $longitude = "";
+            $mc_id = "";
             $action = "New Location";
         } else {
             $action = "Modify Location";
@@ -56,7 +56,7 @@ if (isset($_POST["action"])) {
         if (!$result) {
             print("Error: Error deleting row");
         }
-        unset($mc_id);
+        $mc_id = "";
         $action = "New Location";
     }
 
