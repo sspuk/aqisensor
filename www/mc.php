@@ -121,7 +121,10 @@ $result = mysqli_query($conn, $sql);
                     <td> $r_latitude, $r_longitude</td>
                     <td><input type=submit Value=Edit></td>
                     <script>
-                        markers.push({location: {lat: $r_latitude, lng: $r_longitude}, description: \"$r_identifier\"});                       
+                        markers.push({
+                                        location: {lat: $r_latitude, lng: $r_longitude},
+                                        description: \"$r_identifier\"
+                                    });                       
                     </script>
                 </form>    
             </tr>"
@@ -133,10 +136,10 @@ $result = mysqli_query($conn, $sql);
 <script>
         // Initialize and add the map
         function initMap() {
-            // The map center
-            var c = {lat: 52.139561, lng: -0.464029};
+            // The map center 
+            var c = {lat: 52.075487, lng: -0.604869};
             // The map
-            var map =  new google.maps.Map( document.getElementById('map'), {zoom: 10, center: c});
+            var map =  new google.maps.Map( document.getElementById('map'), {zoom: 11, center: c});
 
             for (i = 0; i < markers.length; i++) {
                 var marker = new google.maps.Marker({
