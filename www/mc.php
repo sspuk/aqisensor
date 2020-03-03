@@ -72,6 +72,18 @@ $result = mysqli_query($conn, $sql);
 ?>
 
 <html>
+    <style>
+        /* Set the size of the div element that contains the map */
+        #map {
+            height: 400px;  /* The height is 400 pixels */
+            width: 50%;  /* The width is the width of the web page */
+        }
+    </style>
+    <script>
+        var markers = [];
+    </script>
+
+
 <form method="POST">
     <input type=hidden name=mc_id value="<?php print $mc_id ?>">
     <h3>Machine Identifier:</h3>
@@ -90,18 +102,27 @@ $result = mysqli_query($conn, $sql);
 
 <?php if (mysqli_num_rows($result) > 0) { ?>
 <centre>
+<div id="map"></div>
 <table border=1>
     <tr><td>Machine Identifier</td><td>Location (Latitude, Longitude)</td><td></td></tr>   
     <?php
     while ($row = mysqli_fetch_assoc($result)) {
+        $r_mc_id = $row["mc_id"];
+        $r_identifier = $row["identifier"];
+        $r_latitude = $row["latitude"];
+        $r_longitude = $row["longitude"];
+
         print (
             "<tr>
                 <form method=POST>
                     <input type=hidden name=action value=\"Edit Location\" >
-                    <input type=hidden name=mc_id value=".$row["mc_id"] .">
-                    <td>". $row["identifier"]."</td>
-                    <td> ". $row["latitude"].", ". $row["longitude"] ."</td>
+                    <input type=hidden name=mc_id value=$r_mc_id>
+                    <td> $r_identifier</td>
+                    <td> $r_latitude, $r_longitude</td>
                     <td><input type=submit Value=Edit></td>
+                    <script>
+                        markers.push({location: {lat: $r_latitude, lng: $r_longitude}, description: \"$r_identifier\"});                       
+                    </script>
                 </form>    
             </tr>"
         );
@@ -109,6 +130,26 @@ $result = mysqli_query($conn, $sql);
     ?>
 </table>
 </centre>
+<script>
+        // Initialize and add the map
+        function initMap() {
+            // The map center
+            var c = {lat: 52.139561, lng: -0.464029};
+            // The map
+            var map =  new google.maps.Map( document.getElementById('map'), {zoom: 10, center: c});
+
+            for (i = 0; i < markers.length; i++) {
+                var marker = new google.maps.Marker({
+                                                    position: markers[i]["location"],
+                                                    map: map,
+                                                    title: markers[i]["description"]
+                                                    });
+            }
+        }
+</script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqmq8fGMZ4n2qfgvIezJTxF_pwGyWT0O4&callback=initMap">
+</script>
 </html>
 <?php } ?>
 <?php
