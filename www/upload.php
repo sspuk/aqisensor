@@ -1,4 +1,5 @@
 <?php
+require "credentials.php";
 require "db_includes.php";
 
 // Create Connection 
