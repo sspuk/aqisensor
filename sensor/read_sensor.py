@@ -1,6 +1,9 @@
 #!/usr/bin/python3 -u
 
-import serial, time
+import serial, time, requests
+
+UPLOAD_URL = "http://127.0.0.1/aqisensor/upload.php?"
+MC_ID = 1
 
 MODE_COMMAND = '\xb4'
 MODE_RESPONSE = '\xc5'
@@ -70,8 +73,10 @@ def process_data(string):
     highpm = string[4]
     lowpm = int(lowpm)
     highpm = int(highpm)
+    # Data returns in 10^-7 format. convert to 10-6 ie. micrograms by dividing by 10.
     pm25.append(lowpm/10)
     pm10.append(highpm/10)
+    print("- PM2.5 > " + str(lowpm/10) + " PM10 > " + str(highpm/10))
 
 def cmd_query_data():
     data = [0,0]
@@ -79,7 +84,7 @@ def cmd_query_data():
     response = read_response()
     process_data(response)
 
-def print_data():
+def upload_data():
     total = 0
     pm25.pop(0)
     for i in pm25:
@@ -92,10 +97,14 @@ def print_data():
         total = total + i
     pm10_avg = round(total / len(pm10), 1)
 
+    s = {
+            "mc_id" : MC_ID,
+            "pm25" : str(pm25_avg),
+            "pm10" : str(pm10_avg)
+        }
+  
     print("PM2.5 > " + str(pm25_avg) + " PM10 > " + str(pm10_avg))
-
-
-
+    return s
 
 ser = serial.Serial("/dev/ttyUSB0")
 
@@ -105,13 +114,19 @@ ser.baudrate = 9600
 ser.flushInput()
 
 cmd_set_work()
+time.sleep(2)
 
 for i in range(1, 7):
+    time.sleep(1  * 60)
     cmd_query_data()
-    time.sleep(1)
+
 
 cmd_set_sleep()
 
 ser.close()
 
-print_data()
+data = upload_data()
+resp = requests.post(UPLOAD_URL, json=data)
+if resp.status_code != 200:
+    print("Error sending data" + str(resp.status_code))
+    
