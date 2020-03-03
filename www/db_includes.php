@@ -44,13 +44,13 @@ function check_mc_id($mysql_conn, $mc_id)
 
     return true;
 }
-function check_record($pm25, $pm100)
+function check_record($pm25, $pm10)
 {
-    if (!(is_numeric($pm25) && is_numeric($pm100))) {
+    if (!(is_numeric($pm25) && is_numeric($pm10))) {
         print("Invalid PM 2.5/10 values");
         return false;
     }
-    if ($pm25 < 0 || $pm25 > 1000 || $pm100 < 0 || $pm100 > 1000) {
+    if ($pm25 < 0 || $pm25 > 1000 || $pm10 < 0 || $pm10 > 1000) {
         print("Invalid PM 2.5/10 values");
         return false;
     }
