@@ -37,7 +37,7 @@ CREATE TABLE `machines` (
 
 LOCK TABLES `machines` WRITE;
 /*!40000 ALTER TABLE `machines` DISABLE KEYS */;
-INSERT INTO `machines` VALUES (1,'Walney Place','\0\0\0\0\0\0\0j�t�\0J@$}ZEh\�'),(2,'Charisse Gardens','\0\0\0\0\0\0\0EGr�J@�)\�\�\�'),(3,'Bedford School - Crescent','\0\0\0\0\0\0\0f�\"\�J@@Qٰ��ݿ');
+INSERT INTO `machines` VALUES (1,'Walney Place',POINT(52.000825, -0.794021)),(2,'Charisse Gardens',POINT(52.008398, -0.809337)),(3,'Bedford School - Crescent',POINT(52.139561, -0.464029));
 /*!40000 ALTER TABLE `machines` ENABLE KEYS */;
 UNLOCK TABLES;
 
