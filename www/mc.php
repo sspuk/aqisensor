@@ -152,7 +152,7 @@ $result = mysqli_query($conn, $sql);
         }
 </script>
 <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqmq8fGMZ4n2qfgvIezJTxF_pwGyWT0O4&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=<?php print($google_api_key); ?>&callback=initMap">
 </script>
 </html>
 <?php } ?>
