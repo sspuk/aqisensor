@@ -137,18 +137,21 @@ $result = mysqli_query($conn, $sql);
 <script>
         // Initialize and add the map
         function initMap() {
-            // The map center 
-            var c = {lat: 52.075487, lng: -0.604869};
             // The map
-            var map =  new google.maps.Map( document.getElementById('map'), {zoom: 11, center: c});
+            var map =  new google.maps.Map( document.getElementById('map'),);
+            // Bounds
+            var bounds = new google.maps.LatLngBounds();
 
             for (i = 0; i < markers.length; i++) {
+                var myLatLng = new google.maps.LatLng(markers[i]["location"]);
                 var marker = new google.maps.Marker({
-                                                    position: markers[i]["location"],
+                                                    position: myLatLng,
                                                     map: map,
                                                     title: markers[i]["description"]
                                                     });
+                bounds.extend(myLatLng);
             }
+            map.fitBounds(bounds);
         }
 </script>
 <script async defer
