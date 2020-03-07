@@ -67,6 +67,8 @@ if (isset($_POST["action"])) {
         }
         $mc_id = "";
         $action = "New Location";
+    } else {
+        $action = "New Location";
     }
 
 }
@@ -102,6 +104,7 @@ $result = mysqli_query($conn, $sql);
     <input type="submit" name="action" value="<?php print $action ?>">
     <?php if ($action == "Modify Location") { ?>
         <input type="submit" name="action" value="Delete Location">
+        <input type="submit" name="action" value="Cancel">
     <?php } ?>
 </form>
 
