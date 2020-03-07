@@ -26,6 +26,10 @@ if (isset($_POST["action"])) {
             if (!$result) {
                 print("Error: Error inserting new machine");
             }
+            $identifier = "";
+            $latitude = "";
+            $longitude = "";
+            $mc_id = "";
         }
     } elseif ($action == "Edit Location") {
         $mc_id = $_POST["mc_id"];
