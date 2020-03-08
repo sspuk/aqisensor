@@ -79,6 +79,7 @@ $result = mysqli_query($conn, $sql);
 ?>
 
 <html>
+<?php require "headers.php";?>
     <style>
         /* Set the size of the div element that contains the map */
         #map {
