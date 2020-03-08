@@ -149,13 +149,13 @@ while ($row = mysqli_fetch_assoc($result)){
             // The pm 2.5 map
             var map_pm25 =  new google.maps.Map( document.getElementById('map_pm25'));
             pm25_HeatmapData_generate(map_pm25);
-            var pm25_heatmap = new google.maps.visualization.HeatmapLayer({ data: pm25_HeatmapData});
+            var pm25_heatmap = new google.maps.visualization.HeatmapLayer({ data: pm25_HeatmapData, radius: 40, maxIntensity: 100});
             pm25_heatmap.setMap(map_pm25);
 
             // The pm 10 map
             var map_pm100 =  new google.maps.Map( document.getElementById('map_pm100'),);
             pm100_HeatmapData_generate(map_pm100);
-            var pm100_heatmap = new google.maps.visualization.HeatmapLayer({ data: pm100_HeatmapData});
+            var pm100_heatmap = new google.maps.visualization.HeatmapLayer({ data: pm100_HeatmapData, radius: 40, maxIntensity: 100});
             pm100_heatmap.setMap(map_pm100);
 
         }
