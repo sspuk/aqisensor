@@ -15,7 +15,7 @@ if (isset($_GET["timerange"])) {
     $time_to = $ts[1];
     $time_now = strtotime($time_from);
 } else {
-    $time_now  = time();
+    $time_now  = strtotime("2020-03-04 12:00");
     $time_now -= $time_now % 3600;
     $time_from = strftime("%F %R", $time_now);
     $time_to = strftime("%F %R", $time_now + (1 * 60 * 60));
