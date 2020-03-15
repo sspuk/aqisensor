@@ -59,7 +59,7 @@ $timenrange = strftime("%F %R", $time_now + (1 * 60 * 60)) ." - ". strftime("%F 
 		<script>
 			$(function()
 				{
-					$('input[name="timerange"]').daterangepicker({timePicker: true, startDate: moment("<?php print $time_from; ?>"), endDate: moment("<?php print $time_to; ?>"), locale: { format: 'YYYY/MM/DD hh:mm A'} });
+					$('input[name="timerange"]').daterangepicker({timePicker: true, startDate: moment("<?php print $time_from; ?>"), endDate: moment("<?php print $time_to; ?>"), locale: { format: 'YYYY/MM/DD HH:MM'} });
 				}
 			);
 		</script>
