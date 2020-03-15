@@ -1,0 +1,12 @@
+//make a user
+> create user pmeter@localhost identified by "db_pass";
+
+//make a database called pmeter
+> create database pmeter;
+
+//give privileges to pmeter
+> grant all privileges on pmeter.* to pmeter@localhost;
+ 
+// Create tables for database from shell command line
+// Enter password when requested
+$> mysql -u pmeter -p pmeter < db/database_create
