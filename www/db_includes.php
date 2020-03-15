@@ -1,10 +1,5 @@
 <?php
 
-$db_host = "localhost";
-$db_user = "pmeter";
-$db_password = "db_pass";
-$db_name = "pmeter";
-
 #checking validity of the values
 function verify_machine_values($identifier, $latitude, $longitude)
 {
