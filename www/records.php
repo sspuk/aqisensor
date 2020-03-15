@@ -66,10 +66,10 @@ $timenrange = strftime("%F %R", $time_now + (1 * 60 * 60)) ." - ". strftime("%F 
     </form>
 
     <centre>
-    <br><h2>PM 2.5</h2>
+    <br><h2>PM 2.5</h2><h4><?php print($timerange); ?></h4>
     <br><div id="map_pm25"></div>
     <br>
-    <br><h2>PM 10</h2>
+    <br><h2>PM 10</h2><h4><?php print($timerange); ?></h4>
     <br><div id="map_pm100"></div>
     </centre>
 </body>
